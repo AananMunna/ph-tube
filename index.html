@@ -6,6 +6,12 @@
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <title>PH Tube Navbar</title>
+    <style>
+        .active{
+            background: #FF1F3D;
+            color: white;
+        }
+    </style>
 </head>
 <body class="  w-11/12 mx-auto">
     <!-- nav -->
@@ -21,13 +27,17 @@
             <button class="bg-red-500 text-white btn hover:bg-red-600">Blog</button>
     </nav>
     <!-- category buttons section -->
-    <section class="py-4 flex justify-center items-center gap-5">
-        <button class="btn btn-sm">All</button>
-        <button class="btn btn-sm">Small</button>
-        <button class="btn btn-sm">Small</button>
-        <button class="btn btn-sm">Small</button>
+    <section id="buttonsContainer" class="py-4 flex justify-center items-center gap-5">
+        <button id="all" onclick="videoLoad()" class="btn btn-sm active">All</button>
     </section>
 
+    <!-- video container -->
+     <section id="videoContainer" class="py-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4  gap-5 mx-auto justify-center items-center">
+        <div class="col-span-full flex justify-center items-center flex-col my-15">
+            <img src="./images/Icon.png" alt="">
+            <h2 class="text-lg font-bold">Oops!! Sorry, There is no content here</h2>
+        </div>
+     </section>
 
 
 
