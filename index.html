@@ -23,22 +23,41 @@
         
         <!-- Buttons -->
          
-        <button class="btn">Sort by view</button>
+        <input id="searchBox" type="text" placeholder="Type here" class="input" />
             <button class="bg-red-500 text-white btn hover:bg-red-600">Blog</button>
     </nav>
     <!-- category buttons section -->
     <section id="buttonsContainer" class="py-4 flex justify-center items-center gap-5">
-        <button id="all" onclick="videoLoad()" class="btn btn-sm active">All</button>
+        <button id="all" onclick="videoLoad()" class="btn btn-sm">All</button>
     </section>
 
     <!-- video container -->
      <section id="videoContainer" class="py-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4  gap-5 mx-auto justify-center items-center">
         <div class="col-span-full flex justify-center items-center flex-col my-15">
-            <img src="./images/Icon.png" alt="">
-            <h2 class="text-lg font-bold">Oops!! Sorry, There is no content here</h2>
+            <!-- <img src="./images/Icon.png" alt=""> -->
+            <h2 class="text-lg font-bold">Select any category to watch videos</h2>
         </div>
      </section>
 
+     <!-- Open the modal using ID.showModal() method -->
+    <dialog id="my_modal_1" class="modal">
+  <div class="modal-box">
+    <div id="modalContainer">
+
+    </div>
+    <div class="modal-action">
+      <form method="dialog">
+        <!-- if there is a button in form, it will close the modal -->
+        <button class="btn">Close</button>
+      </form>
+    </div>
+  </div>
+    </dialog>
+
+    <!-- loading -->
+     <div id="loader" class="flex justify-center items-center hidden my-20">
+<span class="loading loading-spinner text-error"></span>
+     </div>
 
 
     <script src="script.js"></script>

@@ -1,3 +1,13 @@
+// loader
+const showLoader = () => {
+    document.getElementById('loader').classList.remove('hidden')
+    document.getElementById('videoContainer').classList.add('hidden')
+}
+const hideLoader = () => {
+    document.getElementById('loader').classList.add('hidden')
+    document.getElementById('videoContainer').classList.remove('hidden')
+}
+
 // category button load
 const categoryButtonLoad = () => {
     fetch('https://openapi.programming-hero.com/api/phero-tube/categories')
@@ -35,30 +45,56 @@ const routeWithCategoryButton = (id) => {
     })
 }
 
+// show details
+const showDetails = (videoId) => {
+    const url = `https://openapi.programming-hero.com/api/phero-tube/video/${videoId}`
+    fetch(url)
+    .then(res => res.json())
+    .then(data => displayShowDetails(data.video))
+}
 
-// {
-//     "category_id": "1001",
-//     "video_id": "aaaa",
-//     "thumbnail": "https://i.ibb.co/L1b6xSq/shape.jpg",
-//     "title": "Shape of You",
-//     "authors": [
-//     {
-//     "profile_picture": "https://i.ibb.co/D9wWRM6/olivia.jpg",
-//     "profile_name": "Olivia Mitchell",
-//     "verified": ""
-//     }
-//     ],
-//     "others": {
-//     "views": "100K",
-//     "posted_date": "16278"
-//     },
-//     "description": "Dive into the rhythm of 'Shape of You,' a captivating track that blends pop sensibilities with vibrant beats. Created by Olivia Mitchell, this song has already gained 100K views since its release. With its infectious melody and heartfelt lyrics, 'Shape of You' is perfect for fans looking for an uplifting musical experience. Let the music take over as Olivia's vocal prowess and unique style create a memorable listening journey."
-//     },
+
+const displayShowDetails = (video) => {
+    const modalContainer = document.getElementById('modalContainer');
+    const div = document.createElement('div');
+    div.innerHTML = `
+        <div class="max-w-md bg-white rounded-lg shadow-lg overflow-hidden transform transition duration-300 hover:scale-105">
+        <!-- Thumbnail -->
+        <div class="relative">
+            <img src="${video.thumbnail}" alt="Shape of You Thumbnail" class="w-full h-52 object-cover">
+            <span class="absolute bottom-2 right-2 bg-black text-white text-xs px-2 py-1 rounded-md opacity-80">${video.others.views} views</span>
+        </div>
+        
+        <!-- Content -->
+        <div class="p-4">
+            <h3 class="text-xl font-semibold text-gray-900 hover:text-blue-500 transition duration-300 cursor-pointer">
+                ${video.title}
+            </h3>
+            <p class="text-gray-700 text-sm mt-2">
+                ${video.description}
+            </p>
+            
+            <!-- Author Details -->
+            <div class="flex items-center space-x-3 mt-4">
+                <img src="${video.authors[0].profile_picture}" class="w-10 h-10 rounded-full" alt="Olivia Mitchell">
+                <span class="text-gray-800 font-medium">${video.authors[0].profile_name}</span>
+            </div>
+            
+            <!-- Posted Date -->
+            <p class="text-gray-500 text-sm mt-2">Posted on: ${video.others.posted_date}</p>
+        </div>
+    </div>
+    `;
+    modalContainer.innerHTML = ''
+    modalContainer.appendChild(div)
+    document.getElementById('my_modal_1').showModal()
+    console.log(video);
+}
 
 
 // video load
-const videoLoad = () => {
-    fetch('https://openapi.programming-hero.com/api/phero-tube/videos')
+const videoLoad = (inputValue = '') => {
+    fetch(`https://openapi.programming-hero.com/api/phero-tube/videos?title=${inputValue}`)
     .then(res => res.json())
     .then(data => {
 
@@ -78,6 +114,7 @@ const videoLoad = () => {
 
 // video display
 const videoDisplay = (videos) => {
+    showLoader()
     // console.log(videos);
     const videoContainer = document.getElementById('videoContainer');    
     videoContainer.innerHTML = '';
@@ -91,7 +128,7 @@ const videoDisplay = (videos) => {
     }
 
     videos.forEach((video)=>{
-        const {title,thumbnail} = video;
+        const {title,thumbnail,video_id} = video;
         const {profile_picture,profile_name,verified} = video.authors[0];
         
         const div = document.createElement('div');
@@ -120,8 +157,18 @@ const videoDisplay = (videos) => {
                     <p class="text-gray-600 text-sm mt-1">${video.others.views}</p>
                 </div>
             </div>
+            <button onclick=showDetails('${video_id}') class="btn btn-block">Show Details</button>
         </div>
         `;
         videoContainer.appendChild(div);
+        hideLoader()
     })
 }
+
+
+document.getElementById('searchBox').addEventListener('keyup', (e)=>{
+    const inputValue = e.target.value;
+    videoLoad(inputValue)
+})
+
+
