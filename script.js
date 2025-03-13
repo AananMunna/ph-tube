@@ -29,6 +29,7 @@ const categoryButtonDisplay = (buttons) => {
 
 //route with category button
 const routeWithCategoryButton = (id) => {
+    showLoader()
     // console.log(id);
     fetch(`https://openapi.programming-hero.com/api/phero-tube/category/${id}`)
     .then(res => res.json())
@@ -94,6 +95,7 @@ const displayShowDetails = (video) => {
 
 // video load
 const videoLoad = (inputValue = '') => {
+    showLoader()
     fetch(`https://openapi.programming-hero.com/api/phero-tube/videos?title=${inputValue}`)
     .then(res => res.json())
     .then(data => {
@@ -114,7 +116,6 @@ const videoLoad = (inputValue = '') => {
 
 // video display
 const videoDisplay = (videos) => {
-    showLoader()
     // console.log(videos);
     const videoContainer = document.getElementById('videoContainer');    
     videoContainer.innerHTML = '';
@@ -124,6 +125,7 @@ const videoDisplay = (videos) => {
             <img src="./images/Icon.png" alt="">
             <h2 class="text-lg font-bold">Oops!! Sorry, There is no content here</h2>
         </div>`;
+        hideLoader()
         return;
     }
 
@@ -161,8 +163,8 @@ const videoDisplay = (videos) => {
         </div>
         `;
         videoContainer.appendChild(div);
-        hideLoader()
     })
+    hideLoader()
 }
 
 
